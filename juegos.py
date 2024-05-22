@@ -12,34 +12,30 @@ directorio = "menu2/"
 pg.mouse.set_cursor(*pg.cursors.tri_left)
 
 def gameover():
-    directorio = "Gameover/"
+    directorio = "Game/"
     #cargar imagenes
     fondo = pg.image.load(directorio + "fondo6.png").convert_alpha()
     titulo = pg.image.load(directorio + "titulo6.png").convert_alpha()
-    magofeliz = pg.image.load(directorio + "felizmago.png").convert_alpha()
-    seriomago = pg.image.load(directorio + "seriomago.png").convert_alpha()
+    arbol1 = pg.image.load(directorio + "arbol1.png").convert_alpha()
+    arbol2 = pg.image.load(directorio + "arbol2.png").convert_alpha()
 
     #boton
-    regresar = pg.image.load(directorio + "regresargame.png").convert_alpha()
+    regresar = pg.image.load(directorio + "regresarboton.png").convert_alpha()
 
     #escalar imagenes
     fondo = pg.transform.scale(fondo, (720, 1000))
-    titulo = pg.transform.scale(titulo, (300, 300))
-    magofeliz = pg.transform.scale(magofeliz, (500, 300))
-    regresar = pg.transform.scale(regresar, (450, 300))
-    seriomago = pg.transform.scale(seriomago, (450, 300))
+    titulo = pg.transform.scale(titulo, (450, 500))
+    regresar = pg.transform.scale(regresar, (350, 300))
+    arbol1 = pg.transform.scale(arbol1, (720, 1000))
+    arbol2 = pg.transform.scale(arbol2, (720, 1000))
 
     #variables
     x_titulo = screen.get_width() // 2 - titulo.get_width() // 2
     y_titulo = 0
 
-    #mago cambie de emocion 
-    x_mago = screen.get_width() - magofeliz.get_width() - 10
-    y_mago = 100
-
     #boton
-    x_regresar = screen.get_width() // 2 - regresar.get_width() // 2
-    y_regresar = screen.get_height() // 2 - regresar.get_height() // 2
+    x_regresar = screen.get_width() // 2 - regresar.get_width() // 2 
+    y_regresar = screen.get_height() // 2 - regresar.get_height() // 2 + 90
 
     #bucle
     while True:
@@ -55,14 +51,27 @@ def gameover():
                     import modos 
                     modos.modosdejuego()
         #animacion de imagenes
-        y_mago = 650 + 2 * math.sin(pg.time.get_ticks() / 500)
-        y_titulo = 10 + 10 * math.sin(pg.time.get_ticks() / 500)
+        x_arbol1 = 0 + 10 * math.sin(pg.time.get_ticks() / 500)
+        x_arbol2 = 10 + 10 * math.sin(pg.time.get_ticks() / 500)
+        #boton regresar animada
+        x_regresar = 200 + 10 * math.sin(pg.time.get_ticks() / 500)
+        y_titulo = 10 + 10 * math.cos(pg.time.get_ticks() / 500)
         #mostrar imagenes
         screen.blit(fondo, (0, 0))
         screen.blit(titulo, (x_titulo, y_titulo))
-        screen.blit(magofeliz, (x_mago, y_mago))
         screen.blit(regresar, (x_regresar, y_regresar))
+        screen.blit(arbol1, (x_arbol1, 0))
+        screen.blit(arbol2, (x_arbol2, 0))
+        #mostrar puntuacion
+        with open('puntuacion.csv', 'r') as f:
+            reader = csv.reader(f)
+            puntuaciones = list(reader)
+            puntuacion = puntuaciones[-1][0]
+            font = pg.font.Font(None, 36)
+            text = font.render(f"Puntuacion: {puntuacion}", True, (255, 255, 255))
+            screen.blit(text, (10, 10))
         pg.display.update()
+
 
 
 
@@ -147,6 +156,7 @@ def graficas():
                                 writer = csv.writer(f)
                                 writer.writerow([puntuacion])
                             gameover()  # Go to gameover screen
+                            pg.display.quit()
                             return
 
         screen.blit(fondo, (0, 0))

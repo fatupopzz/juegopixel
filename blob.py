@@ -15,8 +15,12 @@ pg.mixer.music.play(-1)
 #pointer
 pg.mouse.set_cursor(*pg.cursors.tri_left)
 
+#mago se apach
+mago_apach = False
+
 #animacion mago serio y enojado 
 def mago():
+    global mago_apach
     #emociones imagenes
     serio = pg.image.load(directorio + "magoserio.PNG").convert_alpha()
     enojado = pg.image.load(directorio + "magoenojado.PNG").convert_alpha()
@@ -31,17 +35,18 @@ def mago():
     mouse_rect = pg.Rect(0, 0, 1, 1)
     # Bucle
     while True:
-        #reproducir sonido mientras aparece
-        pg.mixer.Sound("musica/mago.mp3").play()
-        screen.blit(serio, (x_serio, y_serio))
-        pg.display.update()
-        pg.time.delay(100)
-        screen.blit(enojado, (x_serio, y_serio))
-        pg.display.update()
-        pg.time.delay(2000)
-        screen.fill((0, 0, 0))
-        pg.display.update()
-        break
+        if not mago_apach:
+            #reproducir sonido mientras aparece
+            pg.mixer.Sound("musica/mago.mp3").play()
+            screen.blit(serio, (x_serio, y_serio))
+            pg.display.update()
+            pg.time.delay(100)
+            screen.blit(enojado, (x_serio, y_serio))
+            pg.display.update()
+            pg.time.delay(2000)
+            screen.fill((0, 0, 0))
+            pg.display.update()
+            mago_apach = True
 
 
 
@@ -110,7 +115,14 @@ def blobmascota():
                 mouse_rect = pg.Rect(*mouse_pos, 1, 1)
                 if hamburguesa.get_rect(topleft=(x_hamburguesa, y_hamburguesa)).colliderect(mouse_rect):
                     blob_actual = blobtriste
-                    mago()
+                    if not mago_apach:
+                        mago()
+                        #esperar 5 segundos
+                        pg.time.delay(5000)
+                        # Establece mago_apachurado en True
+                        mago_apach = True
+                    elif mago_apach == True:
+                        mago_apach = False
                 elif botonjugar.get_rect(topleft=(x_botonjugar, y_botonjugar)).colliderect(mouse_rect):
                     #sonido al presionar
                     pg.mixer.Sound("musica/sfx_sounds_powerup2.wav").play()

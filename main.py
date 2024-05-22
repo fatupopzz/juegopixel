@@ -99,6 +99,5 @@ def menu_principal():
         if x_nube2 > screen.get_width():
             x_nube2 = -800
 
-
-
+# Iniciar el juego
 menu_principal()
