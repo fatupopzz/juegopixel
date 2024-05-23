@@ -126,7 +126,7 @@ def blobmascota():
                     pg.mixer.Sound("musica/sfx_sounds_powerup2.wav").play()
                     pg.mixer.music.stop()
                     import main as m
-                    m.main()
+                    m.menu_principal()
         #dibujar blob    
         screen.blit(blob_actual, (x_blob, y_blob))
         screen.blit(regreso, (x_regreso, y_regreso))
