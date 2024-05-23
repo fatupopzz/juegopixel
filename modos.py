@@ -75,7 +75,7 @@ def modosdejuego():
                 mouse_rect = pg.Rect(*mouse_pos, 1, 1)
                 if logaritmos.get_rect(topleft=(x_log, y_log)).colliderect(mouse_rect):
                     # Ir al modo de juego de logaritmos
-                    print("logaritmos")
+                    jg.logaritmos()
                 elif circulounitario.get_rect(topleft=(x_circulo, y_circulo)).colliderect(mouse_rect):
                     # Ir al modo de juego de circulounitario
                     jg.circulounitario()
@@ -108,3 +108,65 @@ def modosdejuego():
         pg.display.update()
 
 
+def ingresarnombre():
+    directorio = "Nombre/"
+    #cargar imagenes
+    fondo8 = pg.image.load(directorio + "fondo8.png").convert_alpha()
+    #crea una fuente
+    font = pg.font.Font(None, 32)
+
+    # Crea un input_box
+    input_box_width =  200  # Increase the width to 200
+    input_box_height = 100  # Increase the height to 100
+    input_box_x = screen.get_width() // 2 - input_box_width // 2
+    input_box_y = screen.get_height() // 2 - input_box_height // 2
+    input_box = pg.Rect(input_box_x, input_box_y, input_box_width, input_box_height)
+    color_inactive = pg.Color('lightskyblue3')
+    color_active = pg.Color('dodgerblue2')
+    color = color_inactive
+    active = False
+    text = ''
+    done = False
+
+    while not done:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                done = True
+            if event.type == pg.MOUSEBUTTONDOWN:
+                # Si el usuario hizo clic en el input_box.
+                if input_box.collidepoint(event.pos):
+                    # Alterna el estado activo.
+                    active = not active
+                else:
+                    active = False
+                # Cambia el color del input box.
+                color = color_active if active else color_inactive
+            if event.type == pg.KEYDOWN:
+                if active:
+                    if event.key == pg.K_RETURN:
+                        print(text)
+                        with open("nombre.csv", "w") as f:
+                            writer = csv.writer(f)
+                            writer.writerow([text])
+                        import blob
+                        blob.blobmascota()
+                        text = ''
+                    elif event.key == pg.K_BACKSPACE:
+                        text = text[:-1]
+                    else:
+                        text += event.unicode
+        #pon el fondo
+        screen.blit(fondo8, (0, 0))
+        # Renderiza el texto.
+        txt_surface = font.render(text, True, color)
+        # Cambia el tamaño del box si el texto es muy largo.
+        width = max(200, txt_surface.get_width()+10)
+        input_box.w = width
+        # Dibuja el texto.
+        screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
+        # Dibuja el input box.
+        pg.draw.rect(screen, color, input_box, 2)
+     
+        pg.display.flip()
+
+ingresarnombre()

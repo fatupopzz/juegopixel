@@ -47,8 +47,8 @@ def gameover():
                 mouse_pos = pg.mouse.get_pos()
                 mouse_rect = pg.Rect(*mouse_pos, 1, 1)
                 if regresar.get_rect(topleft=(x_regresar, y_regresar)).colliderect(mouse_rect):
-                    # Ir al menu
-                    import modos 
+                    import modos as modos # Import the modos module
+                    #reiniciar modos de juego pantalla
                     modos.modosdejuego()
         #animacion de imagenes
         x_arbol1 = 0 + 10 * math.sin(pg.time.get_ticks() / 500)
@@ -72,6 +72,101 @@ def gameover():
             screen.blit(text, (10, 10))
         pg.display.update()
 
+
+
+def logaritmos(): 
+    directorio = "Logaritmos/"
+    #cargar imagenes
+    fondo = pg.image.load(directorio + "fondo7.png").convert_alpha()
+    titulo = pg.image.load(directorio + "titulo7.png").convert_alpha()
+
+    #imagenes de preguntas
+    pregunta1 = pg.image.load(directorio + "pregunta1.png").convert_alpha()
+    pregunta2 = pg.image.load(directorio + "pregunta2.png").convert_alpha()
+    pregunta3 = pg.image.load(directorio + "pregunta3.png").convert_alpha()
+    pregunta4 = pg.image.load(directorio + "pregunta4.png").convert_alpha()
+    pregunta5 = pg.image.load(directorio + "pregunta5.png").convert_alpha()
+
+    #respuestas de preguntas
+    respuesta1 = pg.image.load(directorio + "respuesta1.png").convert_alpha()
+    respuesta2 = pg.image.load(directorio + "respuesta2.png").convert_alpha()
+    respuesta3 = pg.image.load(directorio + "respuesta3.png").convert_alpha()
+    respuesta4 = pg.image.load(directorio + "respuesta4.png").convert_alpha()
+    respuesta5 = pg.image.load(directorio + "respuesta5.png").convert_alpha()
+
+    #escalar imagenes
+    fondo = pg.transform.scale(fondo, (720, 1000))
+    titulo = pg.transform.scale(titulo, (450, 450))
+
+    #imagenes de preguntas
+    pregunta1 = pg.transform.scale(pregunta1, (350, 300))
+    pregunta2 = pg.transform.scale(pregunta2, (350, 300))
+    pregunta3 = pg.transform.scale(pregunta3, (350, 300))
+    pregunta4 = pg.transform.scale(pregunta4, (350, 300))
+    pregunta5 = pg.transform.scale(pregunta5, (350, 300))
+
+    #respuestas de preguntas
+    respuesta1 = pg.transform.scale(respuesta1, (300, 100))
+    respuesta2 = pg.transform.scale(respuesta2, (300, 100))
+    respuesta3 = pg.transform.scale(respuesta3, (300, 100))
+    respuesta4 = pg.transform.scale(respuesta4, (300, 100))
+    respuesta5 = pg.transform.scale(respuesta5, (300, 100))
+
+    puntuacion = 0
+    pregunta_actual = 0
+
+    preguntas = [
+        {'imagen': 'pregunta1', 'opciones': ['respuesta1', 'respuesta3', 'respuesta5'], 'correcta': 'respuesta1'},
+        {'imagen': 'pregunta2', 'opciones': ['respuesta1', 'respuesta2', 'respuesta5'], 'correcta': 'respuesta2'},
+        {'imagen': 'pregunta3', 'opciones': ['respuesta1', 'respuesta2', 'respuesta3'], 'correcta': 'respuesta3'},
+        {'imagen': 'pregunta4', 'opciones': ['respuesta1', 'respuesta2', 'respuesta4'], 'correcta': 'respuesta4'},
+        {'imagen': 'pregunta5', 'opciones': ['respuesta1', 'respuesta5', 'respuesta3'], 'correcta': 'respuesta5'}
+    ]
+
+    #cambiar de identificador a imagen
+    imagenes_opciones = {
+        'respuesta1': respuesta1,
+        'respuesta2': respuesta2,
+        'respuesta3': respuesta3,
+        'respuesta4': respuesta4,
+        'respuesta5': respuesta5}
+    
+    imagenes_preguntas = {'pregunta1': pregunta1, 'pregunta2': pregunta2, 'pregunta3': pregunta3, 'pregunta4': pregunta4, 'pregunta5': pregunta5}
+
+    while True:
+        for event in pg.event.get():
+            if event.type == QUIT:
+                pg.quit()
+                exit()
+            if event.type == MOUSEBUTTONDOWN:
+                mouse_pos = pg.mouse.get_pos()
+                mouse_rect = pg.Rect(*mouse_pos, 1, 1)
+                for i, opcion in enumerate(preguntas[pregunta_actual]['opciones']):
+                    imagen_opcion = imagenes_opciones[opcion]
+                    if imagen_opcion.get_rect(topleft=(200, 500 + 100 * i)).colliderect(mouse_rect):
+                        if opcion == preguntas[pregunta_actual]['correcta']:
+                            print("Correcto")
+                            puntuacion += 1
+                        else:
+                            print("Incorrecto")
+                        pregunta_actual += 1
+                        if pregunta_actual >= len(preguntas):
+                            with open('puntuacion.csv', 'a', newline='') as f:
+                                writer = csv.writer(f)
+                                writer.writerow([puntuacion])
+                            gameover() #ir al gameover
+                            pg.display.quit()
+                            return
+        #animacion de imagenes
+        x_titulo = screen.get_width() // 2 - titulo.get_width() // 2
+        y_titulo = -50 + 10 * math.sin(pg.time.get_ticks() / 300)
+
+        screen.blit(fondo, (0, 0))
+        screen.blit(titulo, (x_titulo, y_titulo))
+        screen.blit(imagenes_preguntas[preguntas[pregunta_actual]['imagen']], (150, 200))
+        for j, opcion in enumerate(preguntas[pregunta_actual]['opciones']):
+            screen.blit(imagenes_opciones[opcion], (200, 500 + 100 * j))
+        pg.display.update()
 
 
 

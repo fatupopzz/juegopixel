@@ -132,7 +132,7 @@ def blobmascota():
         screen.blit(regreso, (x_regreso, y_regreso))
         pg.display.flip()
 
-blobmascota()
+
 
 
               
