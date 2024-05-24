@@ -13,7 +13,7 @@ screen = pg.display.set_mode((720, 1000))
 directorio = "Menu/"
 
 #poner musica de fondo
-pg.mixer.music.load("musica/8_bit_ice_cave_lofi.mp3")
+pg.mixer.music.load("musica/Adventures in Adventureland.mp3")
 pg.mixer.music.play(-1)
 
 

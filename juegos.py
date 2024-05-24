@@ -3,6 +3,7 @@ from pygame.locals import *
 import math
 import csv
 
+
 # Inicializar Pygame
 pg.init()
 screen = pg.display.set_mode((720, 1000))
@@ -12,6 +13,9 @@ directorio = "menu2/"
 pg.mouse.set_cursor(*pg.cursors.tri_left)
 
 def gameover(nombre_U, intento_l, intento_g, intento_c):
+    #poner musica de fondo
+    pg.mixer.music.load("musica/Space Jazz.mp3")
+    pg.mixer.music.play(-1)
     directorio = "Game/"
     #cargar imagenes
     fondo = pg.image.load(directorio + "fondo6.png").convert_alpha()
@@ -47,6 +51,9 @@ def gameover(nombre_U, intento_l, intento_g, intento_c):
                 mouse_pos = pg.mouse.get_pos()
                 mouse_rect = pg.Rect(*mouse_pos, 1, 1)
                 if regresar.get_rect(topleft=(x_regresar, y_regresar)).colliderect(mouse_rect):
+                    pg.mixer.Sound("musica/sfx_sound_neutral7.wav").play()
+                    #parar musica
+                    pg.mixer.music.stop()
                     import modos as modos # Import the modos module
                     #reiniciar modos de juego pantalla
                     modos.modosdejuego(nombre_U, intento_l, intento_g, intento_c)
@@ -66,15 +73,19 @@ def gameover(nombre_U, intento_l, intento_g, intento_c):
         with open('puntuacion.csv', 'r') as f:
             reader = csv.reader(f)
             puntuaciones = list(reader)
-            puntuacion = puntuaciones[-1][0]
+            correctas = puntuaciones[-1][3] #encontrar la ultima puntuacion
             font = pg.font.Font(None, 36)
-            text = font.render(f"Puntuacion: {puntuacion}", True, (255, 255, 255))
+            text = font.render(f"Puntuacion correctas: {correctas}", True, (255, 255, 255))
             screen.blit(text, (10, 10))
         pg.display.update()
 
 
 
 def logaritmos(nombre_U, intento_l, intento_g, intento_c): 
+
+    #poner musica de fondo
+    pg.mixer.music.load("musica/Magic Escape Room.mp3")
+    pg.mixer.music.play(-1)
 
     correctas = 0
     incorrectas = 0
@@ -162,8 +173,11 @@ def logaritmos(nombre_U, intento_l, intento_g, intento_c):
                             with open('puntuacion.csv', 'a', newline='') as f:
                                 writer = csv.writer(f)
                                 writer.writerow([nombre_U, intento_l, modo, correctas, incorrectas])
+                            pg.mixer.music.stop()
                             gameover(nombre_U, intento_l, intento_g, intento_c) #ir al gameover
+                        
                             pg.display.quit()
+                            
                             return
         #animacion de imagenes
         x_titulo = screen.get_width() // 2 - titulo.get_width() // 2
@@ -179,6 +193,9 @@ def logaritmos(nombre_U, intento_l, intento_g, intento_c):
 
 
 def graficas(nombre_U, intento_l, intento_g, intento_c):
+    #poner musica de fondo
+    pg.mixer.music.load("musica/Aerosol of my Love.mp3")
+    pg.mixer.music.play(-1)
 
     correctas = 0
     incorrectas = 0
@@ -267,6 +284,7 @@ def graficas(nombre_U, intento_l, intento_g, intento_c):
                             with open('puntuacion.csv', 'a', newline='') as f:
                                 writer = csv.writer(f)
                                 writer.writerow([nombre_U, intento_g, modo, correctas, incorrectas])
+                            pg.mixer.music.stop()
                             gameover(nombre_U, intento_l, intento_g, intento_c)  # Go to gameover screen
                             pg.display.quit()
                             return
@@ -279,6 +297,10 @@ def graficas(nombre_U, intento_l, intento_g, intento_c):
         pg.display.update()
 
 def circulounitario(nombre_U, intento_l, intento_g, intento_c):
+    #poner musica de fondo
+    pg.mixer.music.load("musica/Space Jazz.mp3")
+    pg.mixer.music.play(-1)
+
 
     correctas = 0
     incorrectas = 0
@@ -384,6 +406,7 @@ def circulounitario(nombre_U, intento_l, intento_g, intento_c):
                             with open('puntuacion.csv', 'a', newline='') as f:
                                 writer = csv.writer(f)
                                 writer.writerow([nombre_U, intento_c, modo, correctas, incorrectas])
+                            pg.mixer.music.stop()
                             gameover(nombre_U, intento_l, intento_g, intento_c)
                             return
         #animacion de imagenes

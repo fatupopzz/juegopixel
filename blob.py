@@ -8,9 +8,6 @@ pg.init()
 screen = pg.display.set_mode((720, 1000))
 directorio = "blob/"
 
-#poner musica de fondo
-pg.mixer.music.load("musica/8_bit_ice_cave_lofi.mp3")
-pg.mixer.music.play(-1)
 
 #pointer
 pg.mouse.set_cursor(*pg.cursors.tri_left)
@@ -38,7 +35,7 @@ def mago():
     pg.mixer.Sound("musica/mago.mp3").play()
     screen.blit(serio, (x_serio, y_serio))
     pg.display.update()
-    pg.time.delay(100)
+    pg.time.delay(3000)
     screen.blit(enojado, (x_serio, y_serio))
     pg.display.update()
  
@@ -48,6 +45,9 @@ def mago():
     
 
 def blobmascota(nombre_U, intento_l, intento_g, intento_c):
+    #MUSICA DE FONDO
+    pg.mixer.music.load("musica/Goblin_Tinker_Soldier_Spy.mp3")
+    pg.mixer.music.play(-1)
     # Cargar imagenes
     fondo = pg.image.load(directorio + "blofondo.png").convert_alpha()
     blobfeliz = pg.image.load(directorio + "feliz.png").convert_alpha()
@@ -111,8 +111,6 @@ def blobmascota(nombre_U, intento_l, intento_g, intento_c):
                 if hamburguesa.get_rect(topleft=(x_hamburguesa, y_hamburguesa)).colliderect(mouse_rect):
                     blob_actual = blobtriste
                     mago()
-                    #esperar 5 segundos
-                    pg.time.delay(5000)
                 elif botonjugar.get_rect(topleft=(x_botonjugar, y_botonjugar)).colliderect(mouse_rect):
                     #sonido al presionar
                     pg.mixer.Sound("musica/sfx_sounds_powerup2.wav").play()
@@ -123,7 +121,7 @@ def blobmascota(nombre_U, intento_l, intento_g, intento_c):
                     m.modosdejuego(nombre_U, intento_l, intento_g, intento_c)
                 elif regreso.get_rect(topleft=(x_regreso, y_regreso)).colliderect(mouse_rect):
                     #sonido al presionar
-                    pg.mixer.Sound("musica/sfx_sounds_powerup2.wav").play()
+                    pg.mixer.Sound("musica/sfx_sound_neutral7.wav").play()
                     pg.mixer.music.stop()
                     import main as m
                     m.menu_principal(nombre_U, intento_l, intento_g, intento_c)

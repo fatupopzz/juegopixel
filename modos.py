@@ -20,6 +20,9 @@ pg.mouse.set_cursor(*pg.cursors.tri_left)
 #menu de modos de juego
 
 def modosdejuego(nombre_U, intento_l, intento_g, intento_c):
+    #poner musica de fondo
+    pg.mixer.music.load("musica/Late Night Radio.mp3")
+    pg.mixer.music.play(-1)
     #cargar imagenes
     fondo = pg.image.load(directorio + "fondo2.PNG").convert_alpha()
     titulo = pg.image.load(directorio + "Titulo2.PNG").convert_alpha()
@@ -79,17 +82,24 @@ def modosdejuego(nombre_U, intento_l, intento_g, intento_c):
                 mouse_pos = pg.mouse.get_pos()
                 mouse_rect = pg.Rect(*mouse_pos, 1, 1)
                 if logaritmos.get_rect(topleft=(x_log, y_log)).colliderect(mouse_rect):
+                    #parar musica
+                    pg.mixer.music.stop()
                     # Ir al modo de juego de logaritmos
                     jg.logaritmos(nombre_U, intento_l, intento_g, intento_c)
                 elif circulounitario.get_rect(topleft=(x_circulo, y_circulo)).colliderect(mouse_rect):
+                    pg.mixer.music.stop()
                     # Ir al modo de juego de circulounitario
                     jg.circulounitario(nombre_U, intento_l, intento_g, intento_c)
                     
                 elif graficas.get_rect(topleft=(x_graficas, y_graficas)).colliderect(mouse_rect):
+                    pg.mixer.music.stop()
                     # Ir al modo de juego de graficas
                     jg.graficas(nombre_U, intento_g, intento_l, intento_c)
                     
                 elif regreso.get_rect(topleft=(x_regreso, y_regreso)).colliderect(mouse_rect):
+                    pg.mixer.music.stop()
+                    #sonido al presionar
+                    pg.mixer.Sound("musica/sfx_sound_neutral7.wav").play()
                     import blob
                     blob.blobmascota(nombre_U, intento_l, intento_g, intento_c)
         #animacion imagenes seno y coseno
@@ -114,15 +124,27 @@ def modosdejuego(nombre_U, intento_l, intento_g, intento_c):
 
 
 def ingresarnombre(nombre_U, intento_l, intento_g, intento_c):
+    #poner musica de fondo
+    pg.mixer.music.load("musica/Late Night Radio.mp3")
+    pg.mixer.music.play(-1)
     directorio = "Nombre/"
     #cargar imagenes
     fondo8 = pg.image.load(directorio + "fondo8.png").convert_alpha()
+    titulo9 = pg.image.load(directorio + "titulo9.png").convert_alpha()
+    #escalar imagenes
+    fondo8 = pg.transform.scale(fondo8, (720, 1000))
+    titulo9 = pg.transform.scale(titulo9, (500, 400))
+    #variables
+    x_titulo = screen.get_width() // 2 - titulo9.get_width() // 2
+    y_titulo = 0
+    x_fondo = screen.get_width() // 2 - fondo8.get_width() // 2
+    y_fondo = screen.get_height() - fondo8.get_height()
     #crea una fuente
     font = pg.font.Font(None, 32)
 
     # Crea un input_box
-    input_box_width =  200  # Increase the width to 200
-    input_box_height = 100  # Increase the height to 100
+    input_box_width =  610  
+    input_box_height = 100 
     input_box_x = screen.get_width() // 2 - input_box_width // 2
     input_box_y = screen.get_height() // 2 - input_box_height // 2
     input_box = pg.Rect(input_box_x, input_box_y, input_box_width, input_box_height)
@@ -154,6 +176,8 @@ def ingresarnombre(nombre_U, intento_l, intento_g, intento_c):
                         # with open("puntuacion.csv", "a") as f:
                         #     writer = csv.writer(f)
                         #     writer.writerow([nombre_U])
+                        #parar musica
+                        pg.mixer.music.stop()
                         import blob
                         blob.blobmascota(nombre_U, intento_l, intento_g, intento_c)
                         return nombre_U
@@ -165,15 +189,23 @@ def ingresarnombre(nombre_U, intento_l, intento_g, intento_c):
                         text += event.unicode
         #pon el fondo
         screen.blit(fondo8, (0, 0))
+        screen.blit(titulo9, (x_titulo, y_titulo))
+
+        
         # Renderiza el texto.
         txt_surface = font.render(text, True, color)
         # Cambia el tamaño del box si el texto es muy largo.
-        width = max(200, txt_surface.get_width()+10)
+        width = max(600, txt_surface.get_width()+10)
         input_box.w = width
+        # Dibuja el rectángulo del input box.
+        pg.draw.rect(screen, pg.Color("white"), (input_box.x + 1, input_box.y + 1, input_box.width - 2, input_box.height - 2))
         # Dibuja el texto.
         screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
         # Dibuja el input box.
         pg.draw.rect(screen, color, input_box, 2)
+     
+        
+
      
         pg.display.flip()
 
