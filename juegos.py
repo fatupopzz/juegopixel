@@ -75,8 +75,8 @@ def gameover(nombre_U, intento_l, intento_g, intento_c):
             puntuaciones = list(reader)
             correctas = puntuaciones[-1][3] #encontrar la ultima puntuacion
             font = pg.font.Font(None, 36)
-            text = font.render(f"Puntuacion correctas: {correctas}", True, (255, 255, 255))
-            screen.blit(text, (10, 10))
+            text = font.render(f"Puntuacion correctas: {correctas}", True, (0, 0, 0))
+            screen.blit(text, (screen.get_width() // 2 - text.get_width() // 2, screen.get_height() // 2 - text.get_height() // 2 - 50))
         pg.display.update()
 
 
