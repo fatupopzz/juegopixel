@@ -47,7 +47,7 @@ def mago():
 
     
 
-def blobmascota():
+def blobmascota(nombre_U, intento_l, intento_g, intento_c):
     # Cargar imagenes
     fondo = pg.image.load(directorio + "blofondo.png").convert_alpha()
     blobfeliz = pg.image.load(directorio + "feliz.png").convert_alpha()
@@ -120,13 +120,13 @@ def blobmascota():
                     #parar musica de fondo
                     pg.mixer.music.stop()
                     import modos as m 
-                    m.modosdejuego()
+                    m.modosdejuego(nombre_U, intento_l, intento_g, intento_c)
                 elif regreso.get_rect(topleft=(x_regreso, y_regreso)).colliderect(mouse_rect):
                     #sonido al presionar
                     pg.mixer.Sound("musica/sfx_sounds_powerup2.wav").play()
                     pg.mixer.music.stop()
                     import main as m
-                    m.menu_principal()
+                    m.menu_principal(nombre_U, intento_l, intento_g, intento_c)
         #dibujar blob    
         screen.blit(blob_actual, (x_blob, y_blob))
         screen.blit(regreso, (x_regreso, y_regreso))

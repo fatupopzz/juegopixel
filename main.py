@@ -2,6 +2,11 @@ import pygame as pg
 from pygame.locals import *
 import math
 
+intento_l = 0
+intento_g = 0
+intento_c = 0
+nombre_U = ""
+
 # Inicializar Pygame
 pg.init()
 screen = pg.display.set_mode((720, 1000))
@@ -17,11 +22,16 @@ pg.mouse.set_cursor(*pg.cursors.tri_left)
 
 
 # menu principal con opciones de jugar y salir usando imagenes animadas con coseno y seno
-def menu_principal():
+def menu_principal(nombre_U, intento_l, intento_g, intento_c):
+    intento_l = 0
+    intento_g = 0
+    intento_c = 0
+
     # Cargar imagenes
     titulo = pg.image.load(directorio + "titulo.png").convert_alpha()
     fondo = pg.image.load(directorio + "fondo.png").convert_alpha()
     play = pg.image.load(directorio + "jugar.png").convert_alpha()
+
     salir = pg.image.load(directorio + "salir.png").convert_alpha()
     arboles = pg.image.load(directorio + "arboles.png").convert_alpha()
     nube1 = pg.image.load(directorio + "nube1.png").convert_alpha()
@@ -76,7 +86,7 @@ def menu_principal():
                 #parar musica de fondo
                 pg.mixer.music.stop()
                 import blob as juego
-                juego.blobmascota()
+                juego.blobmascota(nombre_U, intento_l, intento_g, intento_c)
             if x >= x_salir and x <= x_salir + 200 and y >= y_salir and y <= y_salir + 200:
                 #reproducir sonido de boton
                 pg.mixer.Sound("musica/sfx_sounds_negative1.wav").play()
@@ -100,4 +110,4 @@ def menu_principal():
             x_nube2 = -800
 
 # Iniciar el juego
-menu_principal()
+menu_principal(nombre_U, intento_l, intento_g, intento_c)

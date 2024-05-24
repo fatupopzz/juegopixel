@@ -4,6 +4,11 @@ import math
 import csv
 import juegos as jg
 
+intento_l = 0
+intento_g = 0
+intento_c = 0
+nombre_U = ""
+
 # Inicializar Pygame
 pg.init()
 screen = pg.display.set_mode((720, 1000))
@@ -14,7 +19,7 @@ pg.mouse.set_cursor(*pg.cursors.tri_left)
 
 #menu de modos de juego
 
-def modosdejuego():
+def modosdejuego(nombre_U, intento_l, intento_g, intento_c):
     #cargar imagenes
     fondo = pg.image.load(directorio + "fondo2.PNG").convert_alpha()
     titulo = pg.image.load(directorio + "Titulo2.PNG").convert_alpha()
@@ -75,18 +80,18 @@ def modosdejuego():
                 mouse_rect = pg.Rect(*mouse_pos, 1, 1)
                 if logaritmos.get_rect(topleft=(x_log, y_log)).colliderect(mouse_rect):
                     # Ir al modo de juego de logaritmos
-                    jg.logaritmos()
+                    jg.logaritmos(nombre_U, intento_l, intento_g, intento_c)
                 elif circulounitario.get_rect(topleft=(x_circulo, y_circulo)).colliderect(mouse_rect):
                     # Ir al modo de juego de circulounitario
-                    jg.circulounitario()
+                    jg.circulounitario(nombre_U, intento_l, intento_g, intento_c)
                     
                 elif graficas.get_rect(topleft=(x_graficas, y_graficas)).colliderect(mouse_rect):
                     # Ir al modo de juego de graficas
-                    jg.graficas()
+                    jg.graficas(nombre_U, intento_g, intento_l, intento_c)
                     
                 elif regreso.get_rect(topleft=(x_regreso, y_regreso)).colliderect(mouse_rect):
                     import blob
-                    blob.blobmascota()
+                    blob.blobmascota(nombre_U, intento_l, intento_g, intento_c)
         #animacion imagenes seno y coseno
         y_mago = 209 + 2 * math.sin(pg.time.get_ticks() / 500)
         y_titulo = 10 + 10 * math.sin(pg.time.get_ticks() / 500)
@@ -108,7 +113,7 @@ def modosdejuego():
         pg.display.update()
 
 
-def ingresarnombre():
+def ingresarnombre(nombre_U, intento_l, intento_g, intento_c):
     directorio = "Nombre/"
     #cargar imagenes
     fondo8 = pg.image.load(directorio + "fondo8.png").convert_alpha()
@@ -145,14 +150,17 @@ def ingresarnombre():
                 if active:
                     if event.key == pg.K_RETURN:
                         print(text)
-                        with open("nombre.csv", "w") as f:
-                            writer = csv.writer(f)
-                            writer.writerow([text])
+                        nombre_U = text
+                        # with open("puntuacion.csv", "a") as f:
+                        #     writer = csv.writer(f)
+                        #     writer.writerow([nombre_U])
                         import blob
-                        blob.blobmascota()
-                        text = ''
+                        blob.blobmascota(nombre_U, intento_l, intento_g, intento_c)
+                        return nombre_U
+                        
                     elif event.key == pg.K_BACKSPACE:
                         text = text[:-1]
+
                     else:
                         text += event.unicode
         #pon el fondo
@@ -169,4 +177,5 @@ def ingresarnombre():
      
         pg.display.flip()
 
-ingresarnombre()
+nombre_U = ingresarnombre(nombre_U, intento_l, intento_g, intento_c)
+ingresarnombre(nombre_U, intento_l, intento_g, intento_c)

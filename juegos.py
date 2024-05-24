@@ -11,7 +11,7 @@ directorio = "menu2/"
 #pointer
 pg.mouse.set_cursor(*pg.cursors.tri_left)
 
-def gameover():
+def gameover(nombre_U, intento_l, intento_g, intento_c):
     directorio = "Game/"
     #cargar imagenes
     fondo = pg.image.load(directorio + "fondo6.png").convert_alpha()
@@ -49,7 +49,7 @@ def gameover():
                 if regresar.get_rect(topleft=(x_regresar, y_regresar)).colliderect(mouse_rect):
                     import modos as modos # Import the modos module
                     #reiniciar modos de juego pantalla
-                    modos.modosdejuego()
+                    modos.modosdejuego(nombre_U, intento_l, intento_g, intento_c)
         #animacion de imagenes
         x_arbol1 = 0 + 10 * math.sin(pg.time.get_ticks() / 500)
         x_arbol2 = 10 + 10 * math.sin(pg.time.get_ticks() / 500)
@@ -74,7 +74,12 @@ def gameover():
 
 
 
-def logaritmos(): 
+def logaritmos(nombre_U, intento_l, intento_g, intento_c): 
+
+    correctas = 0
+    incorrectas = 0
+    modo = "Logaritmos"
+
     directorio = "Logaritmos/"
     #cargar imagenes
     fondo = pg.image.load(directorio + "fondo7.png").convert_alpha()
@@ -146,15 +151,18 @@ def logaritmos():
                     if imagen_opcion.get_rect(topleft=(200, 500 + 100 * i)).colliderect(mouse_rect):
                         if opcion == preguntas[pregunta_actual]['correcta']:
                             print("Correcto")
+                            correctas += 1
                             puntuacion += 1
                         else:
                             print("Incorrecto")
+                            incorrectas += 1
                         pregunta_actual += 1
                         if pregunta_actual >= len(preguntas):
+                            intento_l += 1
                             with open('puntuacion.csv', 'a', newline='') as f:
                                 writer = csv.writer(f)
-                                writer.writerow([puntuacion])
-                            gameover() #ir al gameover
+                                writer.writerow([nombre_U, intento_l, modo, correctas, incorrectas])
+                            gameover(nombre_U, intento_l, intento_g, intento_c) #ir al gameover
                             pg.display.quit()
                             return
         #animacion de imagenes
@@ -170,7 +178,13 @@ def logaritmos():
 
 
 
-def graficas():
+def graficas(nombre_U, intento_l, intento_g, intento_c):
+
+    correctas = 0
+    incorrectas = 0
+    modo = "graficas"
+
+
     directorio = "graficas/"
     #cargar imagenes
     fondo = pg.image.load(directorio + "fondo3.png").convert_alpha()
@@ -242,15 +256,18 @@ def graficas():
                     if imagen_opcion.get_rect(topleft=(200, 500 + 100 * i)).colliderect(mouse_rect):
                         if opcion == preguntas[pregunta_actual]['correcta']:
                             print("Correcto")
+                            correctas += 1
                             puntuacion += 1
                         else:
+                            incorrectas += 1
                             print("Incorrecto")
                         pregunta_actual += 1
                         if pregunta_actual >= len(preguntas):
+                            intento_g += 1
                             with open('puntuacion.csv', 'a', newline='') as f:
                                 writer = csv.writer(f)
-                                writer.writerow([puntuacion])
-                            gameover()  # Go to gameover screen
+                                writer.writerow([nombre_U, intento_g, modo, correctas, incorrectas])
+                            gameover(nombre_U, intento_l, intento_g, intento_c)  # Go to gameover screen
                             pg.display.quit()
                             return
 
@@ -261,7 +278,12 @@ def graficas():
             screen.blit(imagenes_opciones[opcion], (200, 500 + 100 * j))
         pg.display.update()
 
-def circulounitario():
+def circulounitario(nombre_U, intento_l, intento_g, intento_c):
+
+    correctas = 0
+    incorrectas = 0
+    modo = "Circulo Unitario"
+
     #directorios
     directorio = "circulo/"
     #cargar imagenes
@@ -351,16 +373,18 @@ def circulounitario():
                     if imagen_opcion.get_rect(topleft=(200, 500 + 100 * i)).colliderect(mouse_rect):
                         if opcion == preguntas[pregunta_actual]['correcta']:
                             print("Correcto")
+                            correctas += 1
                             puntuacion += 1
                         else:
                             print("Incorrecto")
+                            correctas += 1
                         pregunta_actual += 1
-                        puntuacion_circulo_unitario = puntuacion
                         if pregunta_actual >= len(preguntas):
+                            intento_c += 1
                             with open('puntuacion.csv', 'a', newline='') as f:
                                 writer = csv.writer(f)
-                                writer.writerow([puntuacion, puntuacion_circulo_unitario])
-                            gameover()
+                                writer.writerow([nombre_U, intento_c, modo, correctas, incorrectas])
+                            gameover(nombre_U, intento_l, intento_g, intento_c)
                             return
         #animacion de imagenes
         x_titulo = screen.get_width() // 2 - titulo.get_width() // 2

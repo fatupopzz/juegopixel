@@ -1,43 +1,10 @@
-puntuacion
-4,4
-0
-3,3
-1
-0
-2,2
-3
-2,2
-6,6
-4,4
-2,2
-2
-5,5
-2
-3,3
-1,1
-1
-4,4
-1
-2
-2
-2
-2
-2
-2
-2
-2
-2
-2
-2
-2
-2
-2
-2
-2
-3,3
-5,5
-2
-0
-2
-0
-2
+usuario, intento, modo, correctas, incorrectas
+Fatima Navarro,1,graficas,3,2
+Fatima Navarro,1,graficas,5,0
+Fatima Navarro,1,Circulo Unitario,8,0
+Fatima Navarro,2,Logaritmos,2,3
+Fatima Navarro,2,Circulo Unitario,8,0
+Fatima Navarro,3,Logaritmos,3,2
+Gabriel Hidalgo,1,graficas,5,0
+Gabriel Hidalgo,1,Circulo Unitario,8,0
+Gabriel Hidalgo,1,Logaritmos,5,0
