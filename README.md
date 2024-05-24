@@ -7,5 +7,4 @@ Entregables: Jose y Ricardo
 Programacion: Fatima Navarro
 Estadisticas: Juan Daniel
 Publicidad: Gabriel Hidalgo
-'''''''''''''''''''''''''''''''''''''''''''''''''''''
-Gracias por jugar :)
+
